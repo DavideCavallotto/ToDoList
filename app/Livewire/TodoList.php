@@ -11,8 +11,9 @@ class TodoList extends Component
     use WithPagination;
 
     public $name;
-
     public $search;
+    public $editTodoId;
+    public $editTodoName;
 
     public function create() {
         // 1 procedere con la validazione
@@ -29,6 +30,28 @@ class TodoList extends Component
 
     public function delete($todoId) {
         Todo::find($todoId)->delete();
+    }
+
+    public function edit($todoId) {
+        $this->editTodoId = $todoId;
+        $this->editTodoName = Todo::find($todoId)->name;
+    }
+
+    public function update() {
+
+        $validatedEditTodoName = $this->validate([
+            'editTodoName' => 'required|min:5'
+        ]);
+
+        Todo::find($this->editTodoId)->update([
+            'name' => $validatedEditTodoName['editTodoName']
+        ]);
+
+        $this->cancelEdit();
+    }
+
+    public function cancelEdit() {
+        $this->reset('editTodoId', 'editTodoName');
     }
 
     public function toggle($todoId) {
