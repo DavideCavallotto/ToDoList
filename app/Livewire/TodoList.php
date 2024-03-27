@@ -3,8 +3,10 @@
 namespace App\Livewire;
 
 use App\Models\Todo;
+use Exception;
 use Livewire\Component;
 use Livewire\WithPagination;
+use PhpParser\Node\Stmt\TryCatch;
 
 class TodoList extends Component
 {
@@ -29,7 +31,14 @@ class TodoList extends Component
     }
 
     public function delete($todoId) {
-        Todo::find($todoId)->delete();
+
+        try {
+            Todo::findOrfail($todoId)->delete();
+        } catch (Exception $e) {
+            session()->flash('Errore', 'Non è stato possibile eliminare il Task');
+            return;
+        }
+    
     }
 
     public function edit($todoId) {
