@@ -27,6 +27,16 @@ class TodoList extends Component
         session()->flash('success', 'Task creato con successo.');
     }
 
+    public function delete($todoId) {
+        Todo::find($todoId)->delete();
+    }
+
+    public function toggle($todoId) {
+        $todo = Todo::find($todoId);
+        $todo->status = !$todo->status;
+        $todo->save();
+    }
+
     public function paginationView() {
         return 'custom-pagination-links-view';
     }
@@ -34,7 +44,7 @@ class TodoList extends Component
     public function render()
     {
         return view('livewire.todo-list', [
-            'todos' => Todo::where('name', 'like', "%{$this->search}%")->paginate(5)
+            'todos' => Todo::where('name', 'like', "%{$this->search}%")->orderBy('created_at', 'desc')->paginate(5)
         ]);
        
     }
