@@ -1,4 +1,4 @@
-<div class="flex flex-col items-center gap-5 border-y-2 border-lime-200 my-5">
+<div class="flex flex-col items-center gap-5 border-t-2 border-lime-200">
     <h2>Crea Nuovo Task</h2>
     <form action="">
         <div class="flex flex-col gap-2">
